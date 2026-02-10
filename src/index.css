@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500&display=swap");
+@import "tailwindcss";
+
+
+@theme {
+  /* ======================
+     Fonts
+     ====================== */
+  --font-sans: "Sora", sans-serif;
+
+  /* ======================
+     BRAND COLORS (LOGO)
+     ====================== */
+  --color-brand-yellow: #FFE800;   /* Logo yellow */
+  --color-brand-blue: #2F2BFF;     /* Logo blue */
+  --color-brand-pink: #FF2FB3;     /* Logo pink */
+
+  /* ======================
+     CORE UI PALETTE
+     ====================== */
+  --color-bg: #FFFFFF;             /* soft warm yellow (NOT harsh) */
+  --color-surface: #FFE800;        /* cards */
+  --color-white: #FFFFFF;
+
+  /* ======================
+     PRIMARY ACTION
+     ====================== */
+  --color-primary: #2F2BFF;        /* blue for buttons */
+  --color-primary-soft: #E9E8FF;
+
+  /* ======================
+     ACCENT
+     ====================== */
+  --color-accent: #FF2FB3;         /* pink */
+  --color-accent-soft: #FFE3F3;
+
+  /* ======================
+     TEXT
+     ====================== */
+  --color-text: #1F1F1F;
+  --color-muted: #6B6B6B;
+
+  /* ======================
+     UI
+     ====================== */
+  --color-border: #EFE6B8;         /* yellow-tinted border */
+
+  /* ======================
+     RADIUS
+     ====================== */
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* ======================
+     SHADOW
+     ====================== */
+  --shadow-soft: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+
+

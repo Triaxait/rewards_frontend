@@ -1,0 +1,14 @@
+.splash-root {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  background: #FFFBEA;
+  align-items: center;
+  justify-content: center;
+}
+
+.splash-gif {
+  width: 420px;
+  height: auto;
+  object-fit: contain;
+}
