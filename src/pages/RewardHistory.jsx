@@ -20,30 +20,8 @@ export default function RewardsHistory() {
           },
         });
 
-        /**
-         * Backend returns:
-         * {
-         *   history: [
-         *     { date, storeName, paidCups, freeCups, type }
-         *   ]
-         * }
-         */
 
-        const formatted = res.history.map(item => ({
-          date: new Date(item.date).toLocaleDateString("en-IN", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-          }),
-          desc:
-            item.type === "PURCHASE"
-              ? `Purchased ${item.paidCups} cup`
-              : `Redeemed ${item.freeCups} free cup`,
-          points: item.type === "PURCHASE" ? +item.paidCups : -item.freeCups,
-          store: item.storeName,
-        }));
-
-        setHistory(formatted);
+        setHistory(res.history);
       } catch (err) {
         console.error("History fetch failed:", err);
         setHistory([]);
@@ -66,9 +44,7 @@ export default function RewardsHistory() {
           ←
         </button>
 
-        <h1 className="text-2xl font-semibold text-text">
-          Rewards History
-        </h1>
+        <h1 className="text-2xl font-semibold text-text">Rewards History</h1>
 
         <p className="text-sm text-muted">
           Track your earned and redeemed cups
@@ -88,40 +64,57 @@ export default function RewardsHistory() {
 
         {/* History List */}
         {!loading &&
-          history.map((item, i) => (
-            <div
-              key={i}
-              className="
-                bg-white
-                rounded-xl
-                p-4
-                shadow-soft
-                flex items-center justify-between
-              "
-            >
-              {/* Left */}
-              <div className="space-y-0.5">
-                <p className="text-sm font-medium text-text">
-                  {item.date}
-                </p>
+          history.map((item) => {
+            const date = new Date(item.date).toLocaleDateString("en-IN", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            });
 
-                <p className="text-xs text-muted">
-                  {item.desc} · {item.store}
-                </p>
-              </div>
-
-              {/* Right */}
+            return (
               <div
-                className={`text-sm font-medium ${
-                  item.points > 0 ? "text-primary" : "text-muted"
-                }`}
+                key={item.id}
+                className="bg-white rounded-xl p-4 shadow-soft space-y-3"
               >
-                {item.points > 0 ? "+" : ""}
-                {item.points} cup
-                {Math.abs(item.points) !== 1 ? "s" : ""}
+                {/* Top Row */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-text">{date}</p>
+                    <p className="text-xs text-muted">{item.storeName}</p>
+                  </div>
+
+                  <span
+                    className={`text-xs px-2 py-1 rounded-full ${
+                      item.type === "REDEEM"
+                        ? "bg-accent-soft text-accent"
+                        : "bg-primary/10 text-primary"
+                    }`}
+                  >
+                    {item.type}
+                  </span>
+                </div>
+
+                {/* Cups Info */}
+                <div className="flex justify-between text-sm">
+                  {/* Paid Cups */}
+                  {item.paidCups > 0 && (
+                    <div className="text-primary font-medium">
+                      +{item.paidCups} Paid Cup
+                      {item.paidCups !== 1 ? "s" : ""}
+                    </div>
+                  )}
+
+                  {/* Free Cups (Redeemed) */}
+                  {item.freeCups > 0 && (
+                    <div className="text-muted font-medium">
+                      -{item.freeCups} Free Cup
+                      {item.freeCups !== 1 ? "s" : ""}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
         {/* Empty State */}
         {!loading && history.length === 0 && (

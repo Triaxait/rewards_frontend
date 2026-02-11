@@ -25,7 +25,7 @@ export default function HomePage() {
     async function load() {
       try {
         const token = localStorage.getItem("accessToken");
-        const res = await apiFetch("/summary", {
+        const res = await apiFetch("/customer/summary", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSummary(res);
@@ -67,35 +67,35 @@ export default function HomePage() {
           <p className="text-xs text-muted">{getGreeting()}</p>
 
           <h1 className="text-2xl font-semibold text-text">{name}</h1>
-
         </div>
       </div>
 
-      {/* Primary Reward Card */}
-      {availableFreeCups > 0 ? (
-        <div className="rounded-[22px] bg-gradient-to-br from-primary/15 to-primary/5 p-6 shadow-soft">
-          <p className="text-xs text-muted mb-3">Reward Available</p>
+      <div className="rounded-[22px] bg-bg-surface p-6 shadow-soft ring-1 ring-black/5 space-y-5">
+        {/* Reward Banner (if available) */}
+        {availableFreeCups > 0 && (
+          <div className="rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
+                <Gift className="w-5 h-5 text-primary" />
+              </div>
 
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center shadow-sm">
-              <Gift className="w-6 h-6 text-primary" />
+              <div>
+                <p className="text-sm font-semibold text-text">
+                  {availableFreeCups} Free Cup
+                  {availableFreeCups > 1 ? "s" : ""} Available 🎉
+                </p>
+                <p className="text-[11px] text-muted">Redeem at any store</p>
+              </div>
             </div>
 
-            <div>
-              <p className="text-xl font-semibold text-text">
-                {availableFreeCups} Free Cup
-                {availableFreeCups > 1 ? "s" : ""}
-              </p>
-              <p className="text-xs text-muted">Redeem at any store</p>
-            </div>
+            <button className="bg-primary text-white px-4 py-2 rounded-full text-xs font-medium shadow-md">
+              Redeem
+            </button>
           </div>
+        )}
 
-          <button className="mt-5 w-full bg-primary text-white py-3 rounded-full font-medium shadow-md">
-            Redeem at Store
-          </button>
-        </div>
-      ) : (
-        <div className="rounded-[22px] bg-bg-surface p-6 shadow-soft ring-1 ring-black/5">
+        {/* Always Show Progress */}
+        <div>
           <p className="text-xs text-muted mb-4">Your Progress</p>
 
           <div className="flex items-center gap-5">
@@ -115,13 +115,16 @@ export default function HomePage() {
               <p className="text-lg font-semibold text-text">
                 {currentPoints}/{maxPoints} Points
               </p>
+
               <p className="text-xs text-muted">
-                Next reward at {maxPoints} points
+                {maxPoints - currentPoints > 0
+                  ? `${maxPoints - currentPoints} points to next reward`
+                  : "You've unlocked a reward!"}
               </p>
             </div>
           </div>
         </div>
-      )}
+      </div>
 
       {/* Stats Row */}
       <div className="grid grid-cols-2 gap-4">

@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:4000/api";
+const API_BASE = "https://rewards-backend-xz8u.onrender.com/api";
 
 export async function apiFetch(path, options = {}) {
   let res = await fetch(`${API_BASE}${path}`, {
