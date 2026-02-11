@@ -1,4 +1,4 @@
-const API_BASE = "https://rewards-backend-xz8u.onrender.com/api";
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 export async function apiFetch(path, options = {}) {
   let res = await fetch(`${API_BASE}${path}`, {
