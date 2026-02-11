@@ -1,4 +1,4 @@
-import splashGif from "../assets/logo/logo-2.gif";
+import splashGif from "../assets/logo/logo.gif";
 import './Splash.css';
 
 export default function SplashScreen() {
