@@ -73,24 +73,23 @@ export default function Signup() {
 
     setLoading(true);
 
-   try {
-  setLoading(true);
+    try {
+      setLoading(true);
 
-  const res = await apiFetch("/auth/signup", {
-    method: "POST",
-    body: JSON.stringify(form),
-  });
+      const res = await apiFetch("/auth/signup", {
+        method: "POST",
+        body: JSON.stringify(form),
+      });
 
-  // store pending token
-  localStorage.setItem("pendingToken", res.token);
+      // store pending token
+      localStorage.setItem("pendingToken", res.token);
 
-  setLoading(false);
-  navigate("/verify-otp");
-} catch (err) {
-  setLoading(false);
-  alert(err.message);
-}
-
+      setLoading(false);
+      navigate("/verify-otp");
+    } catch (err) {
+      setLoading(false);
+      alert(err.message);
+    }
   };
 
   return (
@@ -105,7 +104,8 @@ export default function Signup() {
           cursor-pointer
           hover:underline
           w-fit
-        ">
+        "
+        >
           <span className="text-lg leading-none">←</span>
           Back to login
         </p>
@@ -122,48 +122,79 @@ export default function Signup() {
 
         {/* Form */}
         <div
-          className="space-y-4"
+          className="max-w-md mx-auto bg-white p-6 rounded-xl shadow-sm space-y-5"
           onKeyDown={(e) => e.key === "Enter" && submit()}
         >
-          <Input
-            placeholder="First name"
-            name="firstName"
-            value={form.firstName}
-            onChange={update}
-            error={errors.firstName}
-          />
+          {/* First Name */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-600">
+              First Name
+            </label>
+            <Input
+              name="firstName"
+              value={form.firstName}
+              onChange={update}
+              error={errors.firstName}
+              className="w-full "
+            />
+          </div>
 
-          <Input
-            placeholder="Last name"
-            name="lastName"
-            value={form.lastName}
-            onChange={update}
-            error={errors.lastName}
-          />
+          {/* Last Name */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-600">
+              Last Name
+            </label>
+            <Input
+              name="lastName"
+              value={form.lastName}
+              onChange={update}
+              error={errors.lastName}
+              className="w-full"
+            />
+          </div>
 
-          <Input
-            placeholder="Email address"
-            name="email"
-            value={form.email}
-            onChange={update}
-            error={errors.email}
-          />
+          {/* Email */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-600">
+              Email Address
+            </label>
+            <Input
+              name="email"
+              value={form.email}
+              onChange={update}
+              error={errors.email}
+              className="w-full"
+            />
+          </div>
 
-          <Input
-            placeholder="Phone number"
-            name="mobile"
-            value={form.mobile}
-            onChange={update}
-            error={errors.phone}
-          />
+          {/* Phone */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-600">
+              Phone Number
+            </label>
+            <Input
+              name="mobile"
+              value={form.mobile}
+              onChange={update}
+              error={errors.phone}
+              className="w-full"
+            />
+          </div>
 
-          <Input
-            type="date"
-            name="dob"
-            value={form.dob}
-            onChange={update}
-            error={errors.dob}
-          />
+          {/* DOB */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-600">
+              Date of Birth
+            </label>
+            <Input
+              type="date"
+              name="dob"
+              value={form.dob}
+              onChange={update}
+              error={errors.dob}
+              className="w-full h-10"
+            />
+          </div>
         </div>
 
         {/* Terms */}
