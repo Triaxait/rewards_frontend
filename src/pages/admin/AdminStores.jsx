@@ -26,7 +26,7 @@ export default function AdminStores() {
       if (!accessToken) {
         throw new Error("Invalid token");
       }
-      console.log("Token in AdminStores:", accessToken);
+   
 
       const res = await apiFetch("/admin/sites", {
         method: "GET",
@@ -36,6 +36,7 @@ export default function AdminStores() {
       });
 
       setStores(res || []);
+
     } catch (err) {
       alert(err.message || "Failed to load stores");
     } finally {
@@ -163,7 +164,7 @@ export default function AdminStores() {
           <div className="space-y-3">
             {stores.map((store) => (
               <div
-                key={store._id}
+                key={store.id}
                 className="
                   border border-border
                   bg-white

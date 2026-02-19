@@ -1,4 +1,4 @@
-import { LogOut, X, Shield, Store, Users, FileText } from "lucide-react";
+import { LogOut, X, Shield, Store, Users, FileText, UserCircle2 } from "lucide-react";
 import logo from "../assets/logo/xl-coffee.png";
 import { useNavigate } from "react-router-dom";
 
@@ -76,6 +76,13 @@ export default function SideDrawer({ open, onClose, user, onLogout }) {
             label="Manage Staff"
             onClick={() => {
               navigate("/admin/staff");
+            }}
+          />
+          <DrawerItem
+            icon={UserCircle2}
+            label="Manage Customers"
+            onClick={() => {
+              navigate("/admin/customers");
             }}
           />
         </div>

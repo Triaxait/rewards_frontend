@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import VerifyOtp from "./pages/VerifyOtp";
 import CreatePassword from "./pages/CreatePassword";
-import SetPassword from "./pages/staff/SetPassword";
+import SetPassword from "./pages/SetPassword";
 
 /* Customer */
 import AppShell from "./pages/AppShell";
@@ -29,6 +29,8 @@ import SplashScreen from "./components/SplashScreen";
 import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import ProfilePage from "./pages/ProfilePage";
+import ForgotPasswordPage from "./pages/Forgetpassword";
+import AdminCustomers from "./pages/admin/AdminCustomers";
 
 
 /* imports unchanged */
@@ -66,7 +68,8 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/create-password" element={<CreatePassword />} />
-        <Route path="/set-password" element={<SetPassword />} />
+        <Route path="/reset-password" element={<SetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* CUSTOMER */}
         {user?.role === "CUSTOMER" && (
@@ -82,6 +85,7 @@ export default function App() {
             <Route path="/admin" element={<AdminShell />} />
             <Route path="/admin/stores" element={<AdminStores />} />
             <Route path="/admin/staff" element={<AdminStaff />} />
+            <Route path="/admin/customers" element={<AdminCustomers />} />
           </>
         )}
 

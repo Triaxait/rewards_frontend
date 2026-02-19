@@ -38,6 +38,7 @@ const fetchSites = async () => {
         },
     });
     setSites(res || []);
+ 
   } catch (err) {
     alert("Failed to load sites");
   }
@@ -64,6 +65,7 @@ const fetchSites = async () => {
       });
 
       setStaff(res || []);
+   
     } catch (err) {
       alert(err.message || "Failed to load staff");
     } finally {
@@ -291,7 +293,7 @@ const removeSite = async (staffUserId, siteId) => {
       
 
        <div
-  key={site.siteId || site}
+  key={site.id }
   className="
     flex items-center gap-1
     px-2 py-1

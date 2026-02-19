@@ -40,7 +40,6 @@ export default function Login() {
   const submit = async () => {
     if (!validate()) return;
 
-
     try {
       setLoading(true);
 
@@ -52,12 +51,9 @@ export default function Login() {
         }),
       });
 
-      const userdata=res.user;
-      const accessToken=res.accessToken;
-      login(
-        userdata,
-        accessToken,
-      );
+      const userdata = res.user;
+      const accessToken = res.accessToken;
+      login(userdata, accessToken);
 
       navigate("/");
     } catch (err) {
@@ -65,13 +61,11 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
-
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-bg px-6">
       <div className="w-full max-w-sm space-y-8">
-
         {/* Logo */}
         <div className="flex justify-center">
           <Logo />
@@ -110,13 +104,27 @@ export default function Login() {
           />
         </div>
 
+         {/* Forgot Password */}
+        <div className="flex justify-end mt-2">
+          <span
+            onClick={() => navigate("/forgot-password")}
+            className="text-sm text-primary cursor-pointer hover:underline"
+          >
+            Forgot password?
+          </span>
+        </div>
+
         {/* CTA */}
         <Button onClick={submit} disabled={loading}>
           {loading ? "Signing in…" : "Sign in"}
         </Button>
 
+         
+
+       
+
         {/* Footer */}
-        <p className="text-sm text-muted">
+        <p className="text-sm text-muted mt-6">
           New here?{" "}
           <span
             onClick={() => navigate("/signup")}
@@ -125,7 +133,6 @@ export default function Login() {
             Create an account
           </span>
         </p>
-
       </div>
     </div>
   );

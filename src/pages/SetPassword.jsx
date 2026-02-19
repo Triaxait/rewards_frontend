@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Button from "../../components/Button";
-import { apiFetch } from "../../services/api/customer";
+import Button from "../components/Button";
+import { apiFetch } from "../services/api/customer";
 
-export default function SetPassword() {
+export default function ResetPassword() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const token = params.get("token");
+
+  const [checking, setChecking] = useState(true);
+  const [validToken, setValidToken] = useState(false);
 
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -14,6 +17,37 @@ export default function SetPassword() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  /* ======================
+     TOKEN VALIDATION
+     ====================== */
+  useEffect(() => {
+    const checkToken = async () => {
+      if (!token) {
+        setValidToken(false);
+        setChecking(false);
+        return;
+      }
+
+      try {
+        const res = await apiFetch(
+          `/auth/validate-reset-token?token=${token}`
+        );
+
+        
+        setValidToken(res.valid);
+      } catch (err) {
+        setValidToken(false);
+      } finally {
+        setChecking(false);
+      }
+    };
+
+    checkToken();
+  }, [token]);
+
+  /* ======================
+     SUBMIT HANDLER
+     ====================== */
   const submit = async () => {
     setError("");
 
@@ -25,14 +59,10 @@ export default function SetPassword() {
       return setError("Passwords do not match");
     }
 
-    if (!token) {
-      return setError("Invalid or expired link");
-    }
-
     try {
       setLoading(true);
 
-      await apiFetch("/staff/set-password", {
+      await apiFetch("/auth/set-forgot-password", {
         method: "POST",
         body: JSON.stringify({
           token,
@@ -42,29 +72,40 @@ export default function SetPassword() {
 
       setSuccess(true);
     } catch (err) {
-      setError(err.message || "Failed to set password");
+      setError(err.message || "Failed to reset password");
     } finally {
       setLoading(false);
     }
   };
 
   /* ======================
-     SUCCESS SCREEN
+     CHECKING SCREEN
      ====================== */
-  if (success) {
+  if (checking) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-bg">
+        <p className="text-sm text-muted">Validating link...</p>
+      </div>
+    );
+  }
+
+  /* ======================
+     INVALID TOKEN SCREEN
+     ====================== */
+  if (!validToken) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-bg px-6">
-        <div className="w-full max-w-sm space-y-6 text-center">
-          <h1 className="text-2xl font-semibold text-text">
-            You’re onboarded 🎉
+        <div className="w-full max-w-sm text-center space-y-6">
+          <h1 className="text-xl font-semibold text-text">
+            Link expired or invalid
           </h1>
 
           <p className="text-sm text-muted">
-            Your account has been set up successfully.
+            This reset link is no longer valid. Please request a new one.
           </p>
 
-          <Button onClick={() => navigate("/staff/home")}>
-            Go to Home
+          <Button onClick={() => navigate("/forgot-password")}>
+            Request New Link
           </Button>
         </div>
       </div>
@@ -72,7 +113,30 @@ export default function SetPassword() {
   }
 
   /* ======================
-     SET PASSWORD FORM
+     SUCCESS SCREEN
+     ====================== */
+  if (success) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-bg px-6">
+        <div className="w-full max-w-sm text-center space-y-6">
+          <h1 className="text-2xl font-semibold text-text">
+            Password updated successfully 🎉
+          </h1>
+
+          <p className="text-sm text-muted">
+            You can now login using your new password.
+          </p>
+
+          <Button onClick={() => navigate("/login")}>
+            Go to Login
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  /* ======================
+     RESET FORM
      ====================== */
   return (
     <div className="min-h-screen flex items-center justify-center bg-bg px-6">
@@ -80,10 +144,10 @@ export default function SetPassword() {
 
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold text-text">
-            Set your password
+            Set New Password
           </h1>
           <p className="text-sm text-muted">
-            Create a password to activate your account
+            Create a secure password for your account.
           </p>
         </div>
 
@@ -128,7 +192,7 @@ export default function SetPassword() {
         )}
 
         <Button onClick={submit} disabled={loading}>
-          {loading ? "Setting password…" : "Set password"}
+          {loading ? "Updating..." : "Set Password"}
         </Button>
       </div>
     </div>
